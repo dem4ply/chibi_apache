@@ -1,0 +1,11 @@
+bump2version
+wheel
+flake8
+coverage
+Sphinx
+twine
+pycodestyle
+
+jedi
+pipdeptree
+rope
