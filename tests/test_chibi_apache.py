@@ -102,6 +102,7 @@ class Test_chibi_apache_file( unittest.TestCase ):
     def setUp( self ):
         self.file_service = Chibi_path( 'tests/default.conf' )
         self.expected = expected_default
+        self.temp_folder = Chibi_temp_path()
 
     def test_should_be_a_dict( self ):
         service = Chibi_apache( self.file_service )
@@ -119,3 +120,27 @@ class Test_chibi_apache_file( unittest.TestCase ):
         service.write( result )
         result_after_save = service.read()
         self.assertEqual( result, result_after_save )
+
+    def test_write_should_remove_the_directory_cgi_bin( self ):
+        service = Chibi_apache( self.file_service )
+        result = service.read()
+        result.Directory.pop( '"/var/www/cgi-bin"' )
+        new_conf_path= self.temp_folder.temp_file( extension='conf' )
+        new_conf = new_conf_path.open( chibi_file_class=Chibi_apache )
+        new_conf.write( result )
+        result_after_save = new_conf.read()
+        self.assertNotIn( '"/var/www/cgi-bin"', result_after_save.Directory )
+
+    def test_write_should_work_if_change_the_property( self ):
+        service = Chibi_apache( self.file_service )
+        result = service.read()
+        self.assertTrue( result.User != 'root' )
+
+        result.pop( 'User' )
+        result.User = 'root'
+
+        new_conf_path= self.temp_folder.temp_file( extension='conf' )
+        new_conf = new_conf_path.open( chibi_file_class=Chibi_apache )
+        new_conf.write( result )
+        result_after_save = new_conf.read()
+        self.assertEqual( 'root', result_after_save.User )
