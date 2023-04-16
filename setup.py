@@ -30,6 +30,6 @@ setup(
     name='chibi_apache',
     packages=find_packages(include=['chibi_apache', 'chibi_apache.*']),
     url='https://github.com/dem4ply/chibi_apache',
-    version='0.0.1',
+    version='0.0.2',
     zip_safe=False,
 )

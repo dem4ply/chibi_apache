@@ -5,7 +5,7 @@ from chibi_apache.apache import parse, to_string
 
 __author__ = """dem4ply"""
 __email__ = 'dem4ply@gmail.com'
-__version__ = '0.0.1'
+__version__ = '0.0.2'
 
 
 class Chibi_apache( Chibi_file ):
